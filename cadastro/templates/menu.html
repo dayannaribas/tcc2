@@ -1,0 +1,30 @@
+<!-- Menu -->
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'home' %}">Home</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <div class="pull-left">
+                <ul class="nav navbar-nav">
+                    <li><a href="{% url 'ligar' %}">Ligar</a></li>
+                    <li><a href="{% url 'parametros' %}">Parâmetros</a></li>
+                    <li><a href="{% url 'admin:index' %}">Admin</a></li>
+                </ul>
+            </div>
+            <div class="pull-right">
+                <ul class="nav navbar-nav">
+                    {% if user.is_authenticated %}
+                        <li><a><b>{{ user.username.upper }}</b></a></li>
+                        <li><a class="pull-right" href="{% url 'logout' %}">Logout</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
