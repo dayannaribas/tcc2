@@ -15,7 +15,7 @@ config = AutoConfig(search_path=os.path.abspath(os.path.curdir))
 broker_url = config('broker_url', default='0.0.0.0', cast=str)
 
 
-def publish_mqtt(broker, topic, message):
+def publish_mqtt(topic, message, broker=broker_url):
 
     # Define o objeto cliente mqtt
     client = paho.Client("client-001")
@@ -38,11 +38,7 @@ def publish_mqtt(broker, topic, message):
     client.loop_stop()
 
 
-def subscribe_mqtt(broker, topic):
-
-    # # define callback
-    # def on_log(client, userdata, level, buf):
-    #     print("log: ", buf)
+def subscribe_mqtt(topic, broker=broker_url):
 
     def on_message(client, userdata, message):
         while True:
@@ -66,7 +62,7 @@ def subscribe_mqtt(broker, topic):
 
     # Definindo o tópico a enviar
     print("definindo o topico para subescrever ")
-    client.subscribe("day/power/led1")  # ("day/stat/buttonpanic")
+    client.subscribe(topic) #"day/power/led1")  # ("day/stat/buttonpanic")
 
     # Desconecta
     print('desconectado')
@@ -79,5 +75,6 @@ def subscribe_mqtt(broker, topic):
 
 
 if __name__ == '__main__':
-    publish_mqtt(broker=broker_url, topic='day/tele/buttonpanic', message='0')
-    # subscribe_mqtt(broker=broker_url, topic='day/stat/buttonpanic',)
+    #publish_mqtt(broker=broker_url, topic='day/tele/buttonpanic', message='0')
+    print(broker_url)
+    subscribe_mqtt(broker=broker_url, topic='day/stat/mq2')
