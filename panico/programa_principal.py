@@ -15,6 +15,5 @@ telefone_destino = config('telefone_destino', default='')
 
 if __name__ == '__main__':
     realiza_chamada(mensagem="Ola! estou em perigo!", de=telefone_origem, para=telefone_destino)
-    pass
-    publish_mqtt(broker=broker_url, topic='day/tele/buttonpanic', message='1')
-    publish_mqtt(broker=broker_url, topic='day/tele/buttonpanic', message='0')
+#    publish_mqtt(broker=broker_url, topic='day/tele/buttonpanic', message='1')
+#    publish_mqtt(broker=broker_url, topic='day/tele/buttonpanic', message='0')
