@@ -1,4 +1,4 @@
-from django.core.validators import RegexValidator, MaxLengthValidator, MinLengthValidator
+from django.core.validators import RegexValidator, MaxLengthValidator, MinLengthValidator, validate_ipv4_address
 from django.db import models
 
 
