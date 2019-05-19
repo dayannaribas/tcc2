@@ -4,10 +4,12 @@ Created on Sat Mar 23 19:00:30 2019
 
 @author: d.ayanna
 """
-
-from decouple import config
+import os
+from decouple import AutoConfig
 from .ligacao import realiza_chamada
 from .cliente_mqtt import publish_mqtt, subscribe_mqtt
+
+config = AutoConfig(search_path=os.path.abspath(os.path.curdir))
 
 broker_url = config('broker_url', default='0.0.0.0')
 telefone_origem = config('telefone_origem', default='')

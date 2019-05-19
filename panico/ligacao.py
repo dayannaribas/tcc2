@@ -6,9 +6,11 @@ Created on Thu Mar 21 20:43:53 2019
 """
 
 # Download the helper library from https://www.twilio.com/docs/python/install
+import os
 from twilio.rest import Client
-from decouple import config
+from decouple import AutoConfig
 
+config = AutoConfig(search_path=os.path.abspath(os.path.curdir))
 
 account_sid = config('account_sid', default='', cast=str)
 auth_token = config('auth_token', default='', cast=str)

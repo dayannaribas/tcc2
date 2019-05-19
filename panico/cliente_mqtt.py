@@ -5,12 +5,14 @@ Created on Sat Mar 23 19:01:07 2019
 @author: d.ayanna
 """
 
+import os
 import time
 import paho.mqtt.client as paho
-from decouple import config
+from decouple import AutoConfig
 
 
-broker_url = config('broker_url', default='0.0.0.0')
+config = AutoConfig(search_path=os.path.abspath(os.path.curdir))
+broker_url = config('broker_url', default='0.0.0.0', cast=str)
 
 
 def publish_mqtt(broker, topic, message):
