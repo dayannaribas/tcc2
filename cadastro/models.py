@@ -33,4 +33,21 @@ class Cadastro(models.Model):
         return self.conta_sid
 
 
+class Mensagem(models.Model):
+
+    class Meta:
+        verbose_name = 'Mensagem'
+        verbose_name_plural = "Mensagens"
+
+    ligacao_para = models.CharField(
+        max_length=14, verbose_name='Destino:', help_text='Número de destino. Ex: +5554988776655', validators=[
+            RegexValidator(regex=r'^\+[0-9]+$', message="Formato de número inválido.", code='erro_numero_destino'),
+            MinLengthValidator(limit_value=14), MaxLengthValidator(limit_value=14)])
+    mensagem = models.CharField(max_length=500, verbose_name='Mensagem:', help_text='Mensagem a ser enviada')
+    cadastro = models.ForeignKey(Cadastro, on_delete=models.SET_DEFAULT, default='', null=True)
+
+    def __str__(self):
+        return self.ligacao_para
+
+
 auditlog.register(Cadastro)
