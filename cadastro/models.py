@@ -1,6 +1,7 @@
 from auditlog.registry import auditlog
 from django.core.validators import RegexValidator, MaxLengthValidator, MinLengthValidator, validate_ipv4_address
 from django.db import models
+from panico.ligacao import TwilioService
 
 
 def get_actual_content(obj, key):
@@ -50,4 +51,13 @@ class Mensagem(models.Model):
         return self.ligacao_para
 
 
+def post_save_mensagem(sender, instance, created, *args, **kwargs):
+    twilioservice = TwilioService()
+    twilioservice.account_sid = instance.cadastro.conta_sid
+    twilioservice.auth_token = instance.cadastro.token_sid
+    twilioservice.realiza_chamada(mensagem=instance.mensagem, de=instance.cadastro.ligacao_de,
+                                  para=instance.ligacao_para)
+
+
+models.signals.post_save.connect(post_save_mensagem, sender=Mensagem)
 auditlog.register(Cadastro)
