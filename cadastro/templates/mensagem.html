@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    <title>{{ title }}</title>
+{% endblock title %}
+
+{% block content %}
+
+    <div class="row">
+        <div class="jumbotron">
+            <div class="container">
+                <div class="col-md-12">
+                    {% if form %}
+                    <form method="post" enctype="multipart/form-data" name={{ form.name }}>
+                        {% csrf_token %}
+                        {% include 'form.html' with form=form title=title %}
+                    </form>
+                    {% endif %}
+                    {% if aviso %}
+                        <h3>{{ aviso }}</h3>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}

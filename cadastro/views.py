@@ -40,3 +40,25 @@ def parametros(request):
         form = ParametrosForm()
 
     return render(request, "parametros.html", {'form': form, 'title': 'Parâmetros'})
+
+
+def mensagem_view(request):
+    form = None
+    aviso = None
+
+    if Cadastro.objects.all():
+        cadastro = Cadastro.objects.all()[0]
+
+        if request.method == 'POST':
+            form = MensagemForm(request.POST)
+            form.cadastro = cadastro
+
+            if form.is_valid():
+                form.save()
+                return redirect('mensagem')
+        else:
+            form = MensagemForm()
+    else:
+        aviso = 'Por favor, cadastre uma conta na página de Parâmetros'
+
+    return render(request, 'mensagem.html', {'form': form, 'title': 'Mensagem', 'aviso': aviso})
