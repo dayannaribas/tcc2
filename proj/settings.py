@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'widget_tweaks',
     'cadastro',
+    'proj.apps.AuditlogCustomConfig',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

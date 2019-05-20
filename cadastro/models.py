@@ -1,3 +1,4 @@
+from auditlog.registry import auditlog
 from django.core.validators import RegexValidator, MaxLengthValidator, MinLengthValidator, validate_ipv4_address
 from django.db import models
 
@@ -27,3 +28,5 @@ class Cadastro(models.Model):
 
     def __str__(self):
         return self.conta_sid
+
+auditlog.register(Cadastro)
