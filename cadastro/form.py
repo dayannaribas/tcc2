@@ -17,6 +17,9 @@ class ParametrosForm(forms.ModelForm):
 
 
 class LigacaoForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(LigacaoForm, self).__init__(*args, **kwargs)
+        self.instance.cadastro = Cadastro.objects.all()[0]
 
     class Meta:
         model = Ligacao
