@@ -17,16 +17,12 @@ class Cadastro(models.Model):
         max_length=14, verbose_name='Ligação de:', help_text='Número de origem. Ex: +5554988776655', validators=[
             RegexValidator(regex=r'^\+[0-9]+$', message="Formato de número inválido.", code='erro_numero_origem'),
             MinLengthValidator(limit_value=13), MaxLengthValidator(limit_value=14)])
-    ligacao_para = models.CharField(
-        max_length=14, verbose_name='Ligação para:', help_text='Número de destino. Ex: +5554988776655', validators=[
-            RegexValidator(regex=r'^\+[0-9]+$', message="Formato de número inválido.", code='erro_numero_destino'),
-            MinLengthValidator(limit_value=14), MaxLengthValidator(limit_value=14)])
-    mensagem = models.CharField(max_length=20, verbose_name='Mensagem:', help_text='Mensagem a ser enviada')
     broker = models.CharField(
-        max_length=13, verbose_name='Broker:', help_text='Numero do IP do servidor MQTT. Ex: 192.168.100.107',
+        max_length=13, verbose_name='Broker:', help_text='IP do servidor MQTT. Ex: 192.168.100.107',
         validators=[validate_ipv4_address], default='')
 
     def __str__(self):
         return self.conta_sid
+
 
 auditlog.register(Cadastro)
