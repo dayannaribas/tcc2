@@ -1,5 +1,5 @@
 from django import forms
-from .models import Cadastro, Mensagem, get_actual_content
+from .models import Cadastro, Ligacao, get_actual_content
 
 
 class ParametrosForm(forms.ModelForm):
@@ -16,8 +16,8 @@ class ParametrosForm(forms.ModelForm):
         fields = ["broker", "conta_sid", "token_sid", "servicos", "ligacao_de"]
 
 
-class MensagemForm(forms.ModelForm):
+class LigacaoForm(forms.ModelForm):
 
     class Meta:
-        model = Mensagem
+        model = Ligacao
         fields = ["ligacao_para", "mensagem"]

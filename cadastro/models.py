@@ -34,11 +34,11 @@ class Cadastro(models.Model):
         return self.conta_sid
 
 
-class Mensagem(models.Model):
+class Ligacao(models.Model):
 
     class Meta:
-        verbose_name = 'Mensagem'
-        verbose_name_plural = "Mensagens"
+        verbose_name = 'Ligação'
+        verbose_name_plural = "Ligações"
 
     ligacao_para = models.CharField(
         max_length=14, verbose_name='Destino:', help_text='Número de destino. Ex: +5554988776655', validators=[
@@ -51,7 +51,7 @@ class Mensagem(models.Model):
         return self.ligacao_para
 
 
-def post_save_mensagem(sender, instance, created, *args, **kwargs):
+def post_save_ligacao(sender, instance, created, *args, **kwargs):
     twilioservice = TwilioService()
     twilioservice.account_sid = instance.cadastro.conta_sid
     twilioservice.auth_token = instance.cadastro.token_sid
@@ -59,5 +59,5 @@ def post_save_mensagem(sender, instance, created, *args, **kwargs):
                                   para=instance.ligacao_para)
 
 
-models.signals.post_save.connect(post_save_mensagem, sender=Mensagem)
+models.signals.post_save.connect(post_save_ligacao, sender=Ligacao)
 auditlog.register(Cadastro)

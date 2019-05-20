@@ -25,11 +25,6 @@ def logout_view(request):
     return render(request, 'home.html')
 
 
-def ligar(request):
-    # realiza_chamada(mensagem="Ola! estou em perigo!", de='+555140421486', para='+5554999629652')
-    return render(request, 'ligacao.html')
-
-
 def parametros(request):
     if request.method == 'POST':
         form = create_or_update_form(request, Cadastro, ParametrosForm)
@@ -42,7 +37,7 @@ def parametros(request):
     return render(request, "parametros.html", {'form': form, 'title': 'Parâmetros'})
 
 
-def mensagem_view(request):
+def ligacao_view(request):
     form = None
     aviso = None
 
@@ -50,15 +45,15 @@ def mensagem_view(request):
         cadastro = Cadastro.objects.all()[0]
 
         if request.method == 'POST':
-            form = MensagemForm(request.POST)
+            form = LigacaoForm(request.POST)
             form.cadastro = cadastro
 
             if form.is_valid():
                 form.save()
-                return redirect('mensagem')
+                return redirect('ligacao')
         else:
-            form = MensagemForm()
+            form = LigacaoForm()
     else:
         aviso = 'Por favor, cadastre uma conta na página de Parâmetros'
 
-    return render(request, 'mensagem.html', {'form': form, 'title': 'Mensagem', 'aviso': aviso})
+    return render(request, 'ligacao.html', {'form': form, 'title': 'Ligacao', 'aviso': aviso})
