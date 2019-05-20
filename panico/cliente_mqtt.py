@@ -21,25 +21,25 @@ def publish_mqtt(topic, message, broker=broker_url):
     client = paho.Client("client-001")
 
     # Conectando ao servidor
-    print("connecting to broker ", broker)
+    print("Conectando ao servidor ", broker)
     client.connect(broker)  # connect
 
     # Publica o tópico
-    print("publishing ")
+    print("Publica o tópico ")
     client.publish(topic, message)
 
     # Desconecta
-    print('disconnect')
+    print('Desconecta')
     time.sleep(4)
     client.disconnect()
 
     # Encerra o loop
-    print('encerra loop')
+    print('Encerra o loop')
     client.loop_stop()
 
 
 def subscribe_mqtt(topic, broker=broker_url):
-
+      
     def on_message(client, userdata, message):
         while True:
             print('dormindo')
@@ -74,7 +74,7 @@ def subscribe_mqtt(topic, broker=broker_url):
     client.loop_stop()
 
 
-if __name__ == '__main__':
-    #publish_mqtt(broker=broker_url, topic='day/tele/buttonpanic', message='0')
-    print(broker_url)
-    subscribe_mqtt(broker=broker_url, topic='day/stat/mq2')
+#if __name__ == '__main__':
+#    #publish_mqtt(broker=broker_url, topic='day/tele/buttonpanic', message='0')
+#    print(broker_url)
+#    subscribe_mqtt(broker=broker_url, topic='day/stat/mq2')
