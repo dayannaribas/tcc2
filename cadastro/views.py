@@ -6,6 +6,15 @@ from django.shortcuts import render, redirect
 from .form import *
 
 
+def create_or_update_form(request, model, form):
+    obj = model.objects.last()
+    if obj:
+        form_instance = form(request.POST, instance=obj)
+    else:
+        form_instance = form(request.POST)
+    return form_instance
+
+
 def home(request):
     return render(request, 'home.html')
 
@@ -23,7 +32,7 @@ def ligar(request):
 
 def parametros(request):
     if request.method == 'POST':
-        form = ParametrosForm(request.POST)
+        form = create_or_update_form(request, Cadastro, ParametrosForm)
         if form.is_valid():
             form.save()
             return redirect('parametros')
