@@ -12,8 +12,12 @@ from decouple import AutoConfig
 
 config = AutoConfig(search_path=os.path.abspath(os.path.curdir))
 
-account_sid = config('account_sid', default='', cast=str)
-auth_token = config('auth_token', default='', cast=str)
+
+class TwilioService(object):
+    def __init__(self):
+        self.account_sid = config('account_sid', default='', cast=str)
+        self.auth_token = config('auth_token', default='', cast=str)
+        self.client = Client(self.account_sid, self.auth_token)
 
 
 def realiza_chamada(mensagem, de, para):
