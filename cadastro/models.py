@@ -3,6 +3,14 @@ from django.core.validators import RegexValidator, MaxLengthValidator, MinLength
 from django.db import models
 
 
+def get_actual_content(obj, key):
+    actual_content = ''
+    if obj.objects.last():
+        actual_content = obj.objects.last().__dict__
+        actual_content = actual_content[key]
+    return actual_content
+
+
 class Cadastro(models.Model):
     conta_sid = models.CharField(max_length=34, verbose_name='Conta:', help_text='Nome da conta', validators=[
         RegexValidator(regex=r'^[a-zA-Z0-9]+$', message="Conta deve conter apenas letras ou números.",
