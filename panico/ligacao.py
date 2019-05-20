@@ -19,13 +19,10 @@ class TwilioService(object):
         self.auth_token = config('auth_token', default='', cast=str)
         self.client = Client(self.account_sid, self.auth_token)
 
-
-def realiza_chamada(mensagem, de, para):
-    client = Client(account_sid, auth_token)
-    # https://www.twilio.com/labs/twimlets/echo - 
-    default_url = "http://twimlets.com/echo?Twiml=%3CResponse%3E%0A%3CSay%20language%3D'pt-BR'%20voice%3D%22alice%22%3E\
-    {}%3C%2FSay%3E%0A%3C%2FResponse%3E&"
-    message_ = mensagem.replace(" ", "%20")
-    url = default_url.format(message_)
-    call = client.calls.create(url=url, to=para, from_=de)
-    print(call.sid)
+    def realiza_chamada(self, mensagem, de, para):
+        # https://www.twilio.com/labs/twimlets/echo -
+        default_url = "http://twimlets.com/echo?Twiml=%3CResponse%3E%0A%3CSay%20language%3D'pt-BR'%20voice%3D%22alice%2\
+2%3E{}%3C%2FSay%3E%0A%3C%2FResponse%3E&"
+        message_ = mensagem.replace(" ", "%20")
+        url = default_url.format(message_)
+        call = self.client.calls.create(url=url, to=para, from_=de)
