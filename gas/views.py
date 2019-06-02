@@ -1,3 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def manda_valor_gas(request):
+    return render('templates/home.html', request, {'valor_gas': 1234})

@@ -3,9 +3,243 @@
 
 {% block content %}
 
+
+<head>
+    <style>
+        table, th, td {border: 0px solid black;}
+    </style>
+    
+    {{valor_gas}}
+    
+    <table>
+        <tr>
+            <td>
+                </script>
+                    <script src="https://code.highcharts.com/highcharts.js"></script>
+                    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+                    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+                    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+                    
+                    <div id="container"></div>
+                    <script>
+                        Highcharts.chart('container', {
+                        
+                            title: {
+                                text: 'Sensor de gás'
+                            },
+                        
+                            subtitle: {
+                                text: 'Registros novos a cada 5 segundos'
+                            },
+                        
+                            yAxis: {
+                                title: {
+                                    text: 'ppm'
+                                }
+                            },
+                            legend: {
+                                layout: 'vertical',
+                                align: 'right',
+                                verticalAlign: 'middle'
+                            },
+                        
+                            plotOptions: {
+                                series: {
+                                    label: {
+                                        connectorAllowed: false
+                                    },
+                                    pointStart: 2010
+                                }
+                            },
+                        
+                            series: [{
+                                name: 'Gás GLP',
+                                data: [100, 200, 300, 400, 500, 600, 700]
+                            },
+                            {
+                                name: 'Fumaça',
+                                data: [25, 50, 75, 110, 87, 97, 107, 114]
+                            }],
+                        
+                            responsive: {
+                                rules: [{
+                                    condition: {
+                                        maxWidth: 500
+                                    },
+                                    chartOptions: {
+                                        legend: {
+                                            layout: 'horizontal',
+                                            align: 'center',
+                                            verticalAlign: 'bottom'
+                                        }
+                                    }
+                                }]
+                            }
+                        
+                        });
+                </script>
+            </td>
+            <td>
+                <!-- temperatura e umidade -->
+                
+                <script src="https://code.highcharts.com/highcharts.js"></script>
+                <script src="https://code.highcharts.com/highcharts-more.js"></script>
+                <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+                
+                <div class="outer">
+                    <div id="container-speed" class="chart-container"></div>
+                    <div id="container-rpm" class="chart-container"></div>
+                </div>
+                
+                <script>
+                    var gaugeOptions = {
+                    
+                        chart: {
+                            type: 'solidgauge'
+                        },
+                    
+                        title: null,
+                    
+                        pane: {
+                            center: ['50%', '85%'],
+                            size: '140%',
+                            startAngle: -90,
+                            endAngle: 90,
+                            background: {
+                                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                                innerRadius: '60%',
+                                outerRadius: '100%',
+                                shape: 'arc'
+                            }
+                        },
+                    
+                        tooltip: {
+                            enabled: false
+                        },
+                    
+                        // the value axis
+                        yAxis: {
+                            stops: [
+                                [0.1, '#0000FF'], // green
+                                [0.5, '#DDDF0D'], // yellow
+                                [0.9, '#DF5353'] // red
+                            ],
+                            lineWidth: 0,
+                            minorTickInterval: null,
+                            tickAmount: 2,
+                            title: {
+                                y: -70
+                            },
+                            labels: {
+                                y: 16
+                            }
+                        },
+                    
+                        plotOptions: {
+                            solidgauge: {
+                                dataLabels: {
+                                    y: 5,
+                                    borderWidth: 0,
+                                    useHTML: true
+                                }
+                            }
+                        }
+                    };
+                    
+                    // The speed gauge
+                    var chartSpeed = Highcharts.chart('container-speed', Highcharts.merge(gaugeOptions, {
+                        yAxis: {
+                            min: 0,
+                            max: 50,
+                            title: {
+                                text: 'Temperatura'
+                            }
+                        },
+                    
+                        credits: {
+                            enabled: false
+                        },
+                    
+                        series: [{
+                            name: 'Temperatura',
+                            data: [80],
+                            dataLabels: {
+                                format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br/>' +
+                                       '<span style="font-size:12px;color:silver">ºC</span></div>'
+                            },
+                            tooltip: {
+                                valueSuffix: ' ºC'
+                            }
+                        }]
+                    
+                    }));
+                    
+                    // The RPM gauge
+                    var chartRpm = Highcharts.chart('container-rpm', Highcharts.merge(gaugeOptions, {
+                        yAxis: {
+                            min: 0,
+                            max: 100,
+                            title: {
+                                text: 'Umidade'
+                            }
+                        },
+                    
+                        series: [{
+                            name: 'Umidade',
+                            data: [1],
+                            dataLabels: {
+                                format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y:.1f}</span><br/>' +
+                                       '<span style="font-size:12px;color:silver"> % </span></div>'
+                            },
+                            tooltip: {
+                                valueSuffix: '  % '
+                            }
+                        }]
+                    
+                    }));
+                    
+                    // Bring life to the dials
+                    setInterval(function () {
+                        // Speed
+                        var point,
+                            newVal,
+                            inc;
+                    
+                        if (chartSpeed) {
+                            point = chartSpeed.series[0].points[0];
+                            inc = Math.round((Math.random() - 0.5) * 100);
+                            newVal = point.y + inc;
+                    
+                            if (newVal < 0 || newVal > 40) {
+                                newVal = point.y - inc;
+                            }
+                    
+                            point.update(newVal);
+                        }
+                    
+                        // RPM
+                        if (chartRpm) {
+                            point = chartRpm.series[0].points[0];
+                            inc = Math.round((Math.random() - 0.5) * 100);
+                            newVal = point.y + inc;
+                    
+                            if (newVal < 0 || newVal > 100) {
+                                newVal = point.y - inc;
+                            }
+                    
+                            point.update(newVal);
+                        }
+                    }, 2000);
+                </script>
+            </td>
+        </tr>
+    </table> 
+{{valor_gas}}
     <div class="row">
         <div class="jumbotron">
-            <h1>Welcome to Daiana!</h1>
+            <h1>Welcome to Daiana! {{valor_gas}}</h1>
             <div class="container">
             </div>
         </div>
